@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EFL Awards 2026</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#090909;color:#fff;
+ font-family:Arial,sans-serif;
+}
+header{
+ text-align:center;padding:45px 18px 35px;
+ background:linear-gradient(145deg,#252015,#090909 75%);
+ border-bottom:1px solid #80652e;
+}
+.logo{color:#d9b66b;font-size:13px;letter-spacing:5px}
+h1{font-size:36px;margin:15px 0 8px}
+h1 span{color:#d9b66b}
+.subtitle{color:#aaa;font-size:14px}
+main{max-width:900px;margin:auto;padding:25px 16px}
+.notice{
+ border:1px solid #80652e;border-radius:10px;
+ padding:14px;color:#d9b66b;text-align:center;
+ font-size:13px;margin-bottom:28px;
+}
+h2{font-size:21px;color:#d9b66b}
+.categories{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:13px;
+}
+.category{
+ background:#171717;border:1px solid #35302a;
+ border-radius:10px;padding:19px;
+ cursor:pointer;text-align:left;color:white;
+ font-size:15px;font-weight:bold;
+}
+.category:hover,.category.active{
+ border-color:#d9b66b;background:#282116;
+}
+#content{
+ margin-top:30px;background:#141414;
+ border:1px solid #35302a;border-radius:12px;padding:20px;
+}
+.candidate{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:12px;background:#202020;padding:15px;
+ border-radius:9px;margin:12px 0;
+}
+.candidate small{display:block;color:#aaa;margin-top:5px}
+button.vote{
+ background:#d9b66b;color:#111;border:0;
+ border-radius:7px;padding:10px 14px;font-weight:bold;
+ cursor:pointer;
+}
+button.vote.selected{background:#fff}
+footer{
+ text-align:center;color:#777;padding:30px;font-size:12px;
+}
+@media(max-width:450px){
+ h1{font-size:29px}
+ #content{padding:14px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">ÉLITE FOOTBALL LEAGUE</div>
+ <h1>EFL <span>AWARDS</span></h1>
+ <div class="subtitle">CEREMONIA DE PREMIACIÓN · 2026</div>
+</header>
+
+<main>
+ <div class="notice">
+   RESULTADOS OCULTOS HASTA EL CIERRE DE LAS VOTACIONES
+ </div>
+
+ <h2>Categorías oficiales</h2>
+ <div class="categories" id="categories"></div>
+
+ <section id="content">
+   <h2>Bienvenido a los EFL Awards</h2>
+   <p style="color:#aaa">
+   Selecciona una categoría para consultar sus nominados.
+   </p>
+ </section>
+</main>
+
+<footer>
+ ÉLITE FOOTBALL LEAGUE · EFL AWARDS 2026
+</footer>
+
+<script>
+const awards = [
+ {
+  name:"BEST FORWARD OF THE YEAR",
+  nominees:[
+   ["Cristiano Ronaldo","Real Madrid"],
+   ["Kylian Mbappé","Real Madrid"],
+   ["Son","Manchester City"],
+   ["Lionel Messi","Schalke 04"],
+   ["Vinícius Jr.","Ajax"]
+  ]
+ },
+ {
+  name:"BEST TEAM OF THE YEAR",
+  nominees:[
+   ["Real Madrid","Club"],
+   ["Manchester United","Club"],
+   ["Bayern Munich","Club"]
+  ]
+ },
+ {name:"BEST PLAYER OF THE YEAR",nominees:[]},
+ {name:"BEST MIDFIELDER OF THE YEAR",nominees:[]},
+ {name:"BEST DEFENDER OF THE YEAR",nominees:[]},
+ {name:"BEST GOALKEEPER OF THE YEAR",nominees:[]},
+ {name:"GOAL OF THE YEAR",nominees:[]},
+ {name:"TOP SCORER OF THE YEAR",nominees:[]}
+];
+
+const categories=document.getElementById("categories");
+const content=document.getElementById("content");
+
+awards.forEach((award,index)=>{
+ const button=document.createElement("button");
+ button.className="category";
+ button.textContent=award.name;
+ button.onclick=()=>{
+  document.querySelectorAll(".category").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+  showAward(index);
+ };
+ categories.appendChild(button);
+});
+
+function showAward(index){
+ const award=awards[index];
+ content.innerHTML="";
+ const title=document.createElement("h2");
+ title.textContent=award.name;
+ content.appendChild(title);
+
+ if(award.nominees.length===0){
+  const message=document.createElement("p");
+  message.style.color="#aaa";
+  message.textContent="Los nominados de esta categoría se anunciarán próximamente.";
+  content.appendChild(message);
+  return;
+ }
+
+ award.nominees.forEach(nominee=>{
+  const card=document.createElement("div");
+  card.className="candidate";
+
+  const info=document.createElement("div");
+  const name=document.createElement("strong");
+  name.textContent=nominee[0];
+  const team=document.createElement("small");
+  team.textContent=nominee[1];
+  info.append(name,team);
+
+  const label=document.createElement("span");
+  label.style.color="#d9b66b";
+  label.textContent="NOMINADO";
+
+  card.append(info,label);
+  content.appendChild(card);
+ });
+}
+</script>
+</body>
+</html>
